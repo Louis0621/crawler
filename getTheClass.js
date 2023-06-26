@@ -2,6 +2,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');
+
 const url = "https://onepiece.nchu.edu.tw/cofsys/plsql/crseqry_home_now";
 
 async function getTheListings(query) {
