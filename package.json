@@ -4,7 +4,6 @@
   "description": "��#\u0000 \u0000c\u0000r\u0000a\u0000w\u0000l\u0000e\u0000r\u0000\r\u0000 \u0000",
   "main": "getTheClass.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
@@ -28,5 +27,8 @@
     "playwright": "^1.35.1",
     "puppeteer": "^20.7.3",
     "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.35.1"
   }
 }
