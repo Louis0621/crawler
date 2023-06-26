@@ -4,6 +4,7 @@
   "description": "��#\u0000 \u0000c\u0000r\u0000a\u0000w\u0000l\u0000e\u0000r\u0000\r\u0000 \u0000",
   "main": "getTheClass.js",
   "scripts": {
+    "build": "npm run build",
     "prepack": "npm run build",
     "start": "node server.js",
     "chrome": "node -e \"console.log(require('puppeteer').executablePath())\" && echo \"File exists.\" || echo \"File does not exist.\"",
