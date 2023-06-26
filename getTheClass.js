@@ -1,8 +1,8 @@
 // getTheClass.js
 const axios = require('axios');
 const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');
-
+// const puppeteer = require('puppeteer');
+const  { chromium } = require('playwright')
 const url = "https://onepiece.nchu.edu.tw/cofsys/plsql/crseqry_home_now";
 
 async function getTheListings(query) {
@@ -33,46 +33,94 @@ async function crawlData(queryJSON) {
   const week = queryJSON["星期"]
   const language = queryJSON["授課語言"]
   const emi = queryJSON["emi"]
-  const browser = await puppeteer.launch({ headless: 'new' });
-  const page = await browser.newPage();
+  // const browser = await puppeteer.launch({ headless: 'new' });
+  // const page = await browser.newPage();
+  // try {
+  //   await page.goto("https://onepiece.nchu.edu.tw/cofsys/plsql/crseqry_home");
+  //   if(year){
+  //     await page.waitForSelector('select[name="v_year"]');
+  //     await page.select('select[name="v_year"]', year);
+  //   }
+    
+  //   if(career){
+  //     await page.waitForSelector('select[name="v_career"]');
+  //     await page.select('select[name="v_career"]', career);
+  //   }
+  //   if(grade){
+  //     await page.waitForSelector('select[name="v_level"]');
+  //     await page.select('select[name="v_level"]', grade);
+  //   }
+  //   if(language){
+  //     await page.waitForSelector('select[name="v_lang"]');
+  //     await page.select('select[name="v_lang"]', language);
+  //   }
+    
+  //   if(week){
+  //     await page.waitForSelector('select[name="v_week"]');
+  //     await page.select('select[name="v_week"]', week);
+  //   }
+    
+  //   if(emi){
+  //     await page.waitForSelector('select[name="v_emi"]');
+  //     await page.select('select[name="v_emi"]', emi);
+  //   }
+  //   if(department){
+  //     await page.waitForSelector('select[name="v_dept"]');
+  //     await page.select('select[name="v_dept"]', department);
+  //   }
+    
+  //   await page.click('input[type="submit"][value="開始查詢"]');
+  //   await page.waitForResponse((response) => {
+  //     return response.url().includes("crseqry_home_now") && response.status() === 200;
+  //   });'
+  
+  const browser = await chromium.launch();
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
   try {
     await page.goto("https://onepiece.nchu.edu.tw/cofsys/plsql/crseqry_home");
-    if(year){
+
+    if (year) {
       await page.waitForSelector('select[name="v_year"]');
-      await page.select('select[name="v_year"]', year);
+      await page.selectOption('select[name="v_year"]', year);
     }
-    
-    if(career){
+
+    if (career) {
       await page.waitForSelector('select[name="v_career"]');
-      await page.select('select[name="v_career"]', career);
+      await page.selectOption('select[name="v_career"]', career);
     }
-    if(grade){
+
+    if (grade) {
       await page.waitForSelector('select[name="v_level"]');
-      await page.select('select[name="v_level"]', grade);
+      await page.selectOption('select[name="v_level"]', grade);
     }
-    if(language){
+
+    if (language) {
       await page.waitForSelector('select[name="v_lang"]');
-      await page.select('select[name="v_lang"]', language);
+      await page.selectOption('select[name="v_lang"]', language);
     }
-    
-    if(week){
+
+    if (week) {
       await page.waitForSelector('select[name="v_week"]');
-      await page.select('select[name="v_week"]', week);
+      await page.selectOption('select[name="v_week"]', week);
     }
-    
-    if(emi){
+
+    if (emi) {
       await page.waitForSelector('select[name="v_emi"]');
-      await page.select('select[name="v_emi"]', emi);
+      await page.selectOption('select[name="v_emi"]', emi);
     }
-    if(department){
+
+    if (department) {
       await page.waitForSelector('select[name="v_dept"]');
-      await page.select('select[name="v_dept"]', department);
+      await page.selectOption('select[name="v_dept"]', department);
     }
-    
-    await page.click('input[type="submit"][value="開始查詢"]');
-    await page.waitForResponse((response) => {
-      return response.url().includes("crseqry_home_now") && response.status() === 200;
-    });
+
+    await Promise.all([
+      page.click('input[type="submit"][value="開始查詢"]'),
+      page.waitForNavigation(),
+    ]);
+
     const htmlContent = await page.content();
     const $ = cheerio.load(htmlContent)
     const table = $('table.word_13');
