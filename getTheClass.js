@@ -32,7 +32,7 @@ async function crawlData(queryJSON) {
   const week = queryJSON["星期"]
   const language = queryJSON["授課語言"]
   const emi = queryJSON["emi"]
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: 'new' });
   const page = await browser.newPage();
   try {
     await page.goto("https://onepiece.nchu.edu.tw/cofsys/plsql/crseqry_home");
