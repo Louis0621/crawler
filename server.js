@@ -3,7 +3,14 @@ const express = require('express');
 const { crawlData, getTheListings } = require('./getTheClass');
 const app = express();
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 3000 }); 
+
+const server = app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${server.address().port}`);
+});
+
+// Create a WebSocket server using the HTTP server
+const wss = new WebSocket.Server({ server });
+
 //The constant of options
 const years = "v_year"
 const department = "v_dept"
@@ -47,13 +54,4 @@ wss.on('connection', async (ws) => {
   ws.on('close', () => {
     console.log("User disconnected");
   });
-});
-const cors = require('cors')
-app.use(cors());
-app.get('/', async(req, res) => {
-  res.send(await crawlData({"系所":"U56"}))
-})
-
-app.listen(3001, () => {
-  console.log('Server started on port 3001');
 });
