@@ -5,7 +5,11 @@
   "main": "getTheClass.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "chrome": "node -e \"console.log(require('puppeteer').executablePath())\" && echo \"File exists.\" || echo \"File does not exist.\"",
+    "path": "node -e \"console.log(require('puppeteer').executablePath())\" && echo \"File exists.\" || echo \"File does not exist.\"",
+    "find": "find / -name chrome | grep puppeteer | grep -v node_modules"
+
   },
   "repository": {
     "type": "git",
