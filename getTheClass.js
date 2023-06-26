@@ -1,5 +1,4 @@
 // getTheClass.js
-const { Worker } = require("worker_threads")
 const axios = require('axios');
 const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');
